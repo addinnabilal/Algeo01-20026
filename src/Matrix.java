@@ -5,10 +5,22 @@ public class Matrix {
     private double[][] M =null;
     private int rows=0, cols=0;
 
+    //konstruktor
     public Matrix(int rows, int cols) {
         M = new double[rows][cols];
         this.rows = rows;
         this.cols =cols;
+    }
+
+    public Matrix(double[][] M){
+      rows=M.length;
+      cols=M[0].length;
+      this.M =new double[rows][cols];
+      for(int i=0;i<rows;i++) {
+        for(int j=0;j<cols;j++) {
+            this.M[i][j]= M[i][j];
+          }
+        }
     }
 
     public static Matrix inputSPL(){
@@ -20,7 +32,7 @@ public class Matrix {
         Matrix A = new Matrix(n,m);
         for(int i=0;i<n;i++) {
             for(int j=0;j<m;j++) {
-                A.M[i][j]= input.nextInt();
+                A.M[i][j]= input.nextDouble();
               }
             }
         return A;
@@ -38,7 +50,41 @@ public class Matrix {
             }
         return A;
       }
-    
+    public static Matrix inputInterpolasi(){
+      Scanner input = new Scanner(System.in);
+      System.out.println("Masukkan jumlah baris dan kolom ");
+      int n = input.nextInt();
+      Matrix A = new Matrix(n,n+1);
+      for (int i=0;i<A.rows;i++){
+        double x = input.nextDouble();
+        for (int j=0;j<A.cols-1;j++){
+          A.M[i][j]= Math.pow(x,j);
+        }
+        A.M[i][A.cols-1]=input.nextDouble();
+      }
+      return A;
+    }
+
+    public static Matrix inputMatrixFile() throws IOException{ 
+      Scanner input = new Scanner(System.in);
+      String filename = input.nextLine();
+      FileReader fileReader = new FileReader(filename);
+      BufferedReader br = new BufferedReader(fileReader);
+      double[][] data = new double[0][0];
+      String line;
+      int i=0;
+      while ((line=br.readLine()) != null) {
+        String[] linesplitted = line.split("\\s+");
+        double[] convertedline= new double[linesplitted.length];
+        for (int j=0;j<linesplitted.length;j++){
+          convertedline[j]=Double.parseDouble(linesplitted[j]);
+        }
+        data[i]=convertedline;
+        i++;
+      }
+      Matrix A= new Matrix(data);
+      return A;
+    }
     static void cramer(Matrix A){
       double det = A.determinant();
       for (int j=0; j<A.cols-1;j++ ){
@@ -73,9 +119,8 @@ public class Matrix {
       }
     }
 
-    public static void main(String[] args) {
-        Matrix A = Matrix.inputSPL();
-        Matrix AT = replaceColumn(A, 0);
-        cramer(A);
+    public static void main(String[] args) throws IOException {
+        Matrix A = Matrix.inputMatrixFile();
+        A.display();
       }
 }
