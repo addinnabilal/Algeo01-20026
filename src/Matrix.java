@@ -2,8 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Matrix {
-    private double[][] M =null;
-    private int rows=0, cols=0;
+    double[][] M =null;
+    int rows=0, cols=0;
 
     //konstruktor
     public Matrix(int rows, int cols) {
