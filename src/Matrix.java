@@ -68,23 +68,36 @@ public class Matrix {
     public static Matrix inputMatrixFile() throws IOException{ 
       Scanner input = new Scanner(System.in);
       String filename = input.nextLine();
+
+      int row=0,col=0;
+      Scanner inputrow = new Scanner(new File(filename));
+      while (inputrow.hasNextLine()) {
+        row++;
+        Scanner inputcol = new Scanner(inputrow.nextLine());
+        while (inputcol.hasNextInt())
+        {
+          col++;
+        }
+      }
+
       FileReader fileReader = new FileReader(filename);
+      double[][] data = new double[row][col];
       BufferedReader br = new BufferedReader(fileReader);
-      double[][] data = new double[0][0];
-      String line;
-      int i=0;
-      while ((line=br.readLine()) != null) {
-        String[] linesplitted = line.split("\\s+");
-        double[] convertedline= new double[linesplitted.length];
-        for (int j=0;j<linesplitted.length;j++){
+
+      for (int i=0;i<row;i++) {
+        String line=br.readLine();
+        String[] linesplitted = new line.split("\\s+");
+        double[] convertedline= new double[col];
+        for (int j=0;j<col;j++){
           convertedline[j]=Double.parseDouble(linesplitted[j]);
         }
         data[i]=convertedline;
-        i++;
       }
+
       Matrix A= new Matrix(data);
       return A;
     }
+
     static void cramer(Matrix A){
       double det = A.determinant();
       for (int j=0; j<A.cols-1;j++ ){
