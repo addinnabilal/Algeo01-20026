@@ -102,8 +102,14 @@ public class Matrix {
     }
 
     void cramer(Matrix A){
+      Matrix B = new Matrix(A.rows, A.cols-1);
+      for (int i=0;i<B.rows;i++){
+        for (int j=0;j<B.cols;j++){
+          B.M[i][j]=A.M[i][j];
+        }
+      }
+      float det= operasi.DetGauss(B);
       for (int j=0; j<A.cols-1;j++ ){
-        float det= operasi.DetGauss(A);
         float x = operasi.DetGauss(replaceColumn(A, j))/det;
         System.out.printf("x[%d] = %f\n",j+1,x);
       }
@@ -134,8 +140,63 @@ public class Matrix {
         System.out.println(Arrays.toString(row));
       }
     }
+
+    static void printmenu(){
+      System.out.println("MENU");
+      System.out.println("1. Sistem persamaan linier\n2. determinan\n3. Matriks balikan\n4. Interpolasi polinom\n5. Regresi Linier berganda\n6.Keluar");
+    }
+    static void printmenuspl(){
+      System.out.println("1. Metode eliminasi Gauss\n2. Metode eliminasi Gauss-Jordan\n3. Metode matriks balikan\n4. Kaidah Cramer");
+    }
+
+    static void printmenudet(){
+      System.out.println("1. Metode eliminasi Gauss\n2. Metode kofaktor");
+    }
     public static void main(String[] args) throws IOException {
-        Matrix A = new Matrix(1);
-        A.cramer(A);
+       Scanner input = new Scanner(System.in);
+        printmenu();
+        int userinput = input.nextInt();
+        while (userinput !=6) {
+          printmenu();
+          if (userinput == 1) {
+            printmenuspl();
+            int userinputspl = input.nextInt();
+            if (userinputspl == 1){
+              Matrix A = new Matrix(1);
+            }
+            else if (userinputspl == 1){
+              Matrix A = new Matrix(1);
+            }              
+            else if (userinputspl == 3){
+              Matrix A = new Matrix(1);
+            }
+            else if (userinputspl == 4){
+              Matrix A = new Matrix(1);
+              A.cramer(A);
+            }
+          }
+          else if (userinput == 2) {
+            printmenudet();
+            int userinputspl = input.nextInt();
+            if (userinputspl == 1){
+              Matrix A = new Matrix(2);
+              System.out.println(A.operasi.DetGauss(A));
+            }
+            else if (userinputspl == 2){
+              Matrix A = new Matrix(2);
+            }              
+          }
+          else if (userinput == 3) {
+            Matrix A = new Matrix(2);
+          }
+          else if (userinput == 4) {
+            Matrix A = new Matrix(1);
+          }
+          else if (userinput == 5) {
+            // Matrix A = new Matrix(1);
+          }
+          printmenu();
+          userinput=input.nextInt();
+        }
       }
 }
