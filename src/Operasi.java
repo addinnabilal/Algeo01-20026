@@ -18,7 +18,7 @@ public class Operasi {
         int swap = -1;
         for(int i=0;i<mtemp.rows-1;i++){
             for(int j=i+1; j<mtemp.rows; j++){
-                if(m.M[i][i]<mtemp.M[j][i]){
+                if(mtemp.M[i][i]<mtemp.M[j][i]){
                     count++;
                     swap(mtemp,i,j);
 
