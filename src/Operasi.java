@@ -37,8 +37,6 @@ public class Operasi {
                 swap = swap * (-1);
             }
         }
-        System.out.println(count);
-        System.out.println(swap);
         return hasil*swap;
     }
 
