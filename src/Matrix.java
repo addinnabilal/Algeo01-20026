@@ -98,18 +98,22 @@ public class Matrix {
     }
 
     void cramer(Matrix A) throws IOException{
-      Matrix B = new Matrix(A.rows, A.cols-1);
-      for (int i=0;i<B.rows;i++){
-        for (int j=0;j<B.cols;j++){
-          B.M[i][j]=A.M[i][j];
+      if (operasi.DetGauss(A)!=0){
+        Matrix B = new Matrix(A.rows, A.cols-1);
+        for (int i=0;i<B.rows;i++){
+          for (int j=0;j<B.cols;j++){
+            B.M[i][j]=A.M[i][j];
+          }
+        }
+        float det= operasi.DetGauss(B);
+        for (int j=0; j<A.cols-1;j++ ){
+          float x = operasi.DetGauss(replaceColumn(A, j))/det;
+          System.out.printf("x[%d] = %f\n",j+1,x);
         }
       }
-      float det= operasi.DetGauss(B);
-      for (int j=0; j<A.cols-1;j++ ){
-        float x = operasi.DetGauss(replaceColumn(A, j))/det;
-        System.out.printf("x[%d] = %f\n",j+1,x);
+      else {
+        System.out.println("Determinan matriks 0. Metode cramer tidak dapat diterapkan pada SPL ini.");
       }
-      File fileOutput = createFile();
     }
 
 
@@ -144,27 +148,32 @@ public class Matrix {
       return mtemp;
 
   }
-    void splBalikan() {
-      int i,j,k;
-      double sum;
-      Matrix aug = new Matrix(rows, cols-1);
-      Matrix res = new Matrix(rows, 1);
-      for (i=0; i< aug.rows; i++){
-        for (j=0; j<aug.cols;j++){
-          aug.M[i][j]= M[i][j];
+    void splBalikan(Matrix A) {
+      if (operasi.DetGauss(A) != 0){
+        int i,j,k;
+        double sum;
+        Matrix aug = new Matrix(rows, cols-1);
+        Matrix res = new Matrix(rows, 1);
+        for (i=0; i< aug.rows; i++){
+          for (j=0; j<aug.cols;j++){
+            aug.M[i][j]= M[i][j];
+          }
+        }
+        for (i=0; i< aug.rows; i++){
+          res.M[i][0]= M[i][cols-1];
+        }
+        aug = operasi.inverse(aug);
+        for (i=0; i< aug.rows; i++){
+          sum=0;
+          for (k=0; k<res.rows;k++) {
+              sum = sum + aug.M[i][k] * res.M[k][0];
+          }
+            System.out.printf("x[%d] = %f\n",i+1,sum);
         }
       }
-      for (i=0; i< aug.rows; i++){
-        res.M[i][0]= M[i][cols-1];
-      }
-      aug = operasi.inverse(aug);
-      for (i=0; i< aug.rows; i++){
-        sum=0;
-        for (k=0; k<res.rows;k++) {
-            sum = sum + aug.M[i][k] * res.M[k][0];
-        }
-          System.out.printf("x[%d] = %f\n",i+1,sum);
-      }
+      else {
+        System.out.println("Determinan matriks 0, matrik tidak memiliki balikan. Metode SPL balikan tidak dapat diterapkan pada SPL ini.");
+      } 
     }
 
     void regresi(){
@@ -172,6 +181,10 @@ public class Matrix {
       double sum;
       Matrix aug = new Matrix(rows, cols-1);
       Matrix res = new Matrix(rows, 1);
+
+      System.out.println("Masukkan nilai x yang akan ditaksir nilainya: ");
+      int x= input.nextInt();
+
       for (i=0; i< aug.rows; i++){
         for (j=0; j<aug.cols;j++){
           aug.M[i][j]= M[i][j];
@@ -238,6 +251,8 @@ public class Matrix {
       }
 
     void interpolasi(Matrix A){
+      System.out.println("Masukkan nilai x yang akan ditaksir nilainya: ");
+      int x= input.nextInt();
       A.gauss.eselonBaris(A);
     }
 
@@ -313,7 +328,7 @@ public class Matrix {
               else {
                 A= new Matrix(4);
               }              
-              A.splBalikan();
+              A.splBalikan(A);
             }
             else if (userinputspl == 4){
               if (userinputtipe==1){
