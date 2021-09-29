@@ -53,7 +53,7 @@ public class Matrix {
       this.cols=n;
       }
       else if (a==3) {
-        System.out.println("Masukkan jumlah baris dan kolom");
+        System.out.println("Masukkan jumlah n");
         int n = input.nextInt();
         this.M = new double[n][n+1];
         for (int i=0;i<n;i++){
@@ -181,9 +181,11 @@ public class Matrix {
       double sum;
       Matrix aug = new Matrix(rows, cols-1);
       Matrix res = new Matrix(rows, 1);
-
-      System.out.println("Masukkan nilai x yang akan ditaksir nilainya: ");
-      int x= input.nextInt();
+      double xk[] = new double[aug.cols];
+      for (k=0; k<aug.cols;k++){
+        System.out.printf("Masukkan nilai xk[%d] yang akan ditaksir nilainya: ", k+1);
+        xk[k]= input.nextDouble();
+      }
 
       for (i=0; i< aug.rows; i++){
         for (j=0; j<aug.cols;j++){
@@ -248,12 +250,53 @@ public class Matrix {
           est.M[i][est.cols-1]=sum;
         }
         est.gauss.eselonBaris(est);
+
+        int m = est.rows, n = est.cols;
+        double[] solusi;
+        if ((est.M[m-1][n-1] != 0) && (est.M[m-1][n-2] == 0)) {
+            System.out.println("\nSolusi SPL tidak ada.");
+        }
+        else if ((est.M[m-1][n-1] != 0) && (est.M[m-1][n-2] != 0)) {
+            solusi = gauss.gaussSPL(est);
+            System.out.printf("y(x) =  %f +", (solusi[0]));
+            for (i=1; i<solusi.length-1; i++) {
+                System.out.printf(" %fx^%d +", (solusi[i]),i);
+                System.out.println();
+            }
+            System.out.printf(" %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
+            double result=solusi[0];
+            // taksir fungsi pada x
+            for (i=1;i<solusi.length;i++){
+              result += solusi[i]* xk[i-1];
+            }
+            System.out.printf("y = %f\n",result);
+        }
       }
 
     void interpolasi(Matrix A){
       System.out.println("Masukkan nilai x yang akan ditaksir nilainya: ");
-      int x= input.nextInt();
+      double x= input.nextDouble();
       A.gauss.eselonBaris(A);
+      int i, m = A.rows, n = A.cols;
+      double[] solusi;
+      if ((A.M[m-1][n-1] != 0) && (A.M[m-1][n-2] == 0)) {
+          System.out.println("\nSolusi SPL tidak ada.");
+      }
+      else if ((A.M[m-1][n-1] != 0) && (A.M[m-1][n-2] != 0)) {
+          solusi = gauss.gaussSPL(A);
+          System.out.printf("p(x) =  %f +", (solusi[0]));
+          for (i=1; i<solusi.length-1; i++) {
+              System.out.printf(" %fx^%d +", (solusi[i]),i);
+              System.out.println();
+          }
+          System.out.printf(" %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
+          double sum=0;
+          // taksir fungsi pada x
+          for (i=0;i<solusi.length;i++){
+            sum += solusi[i]* Math.pow(x,i);
+          }
+          System.out.printf("p(%f) = %f\n",x,sum);
+      }
     }
 
     public void display() {
@@ -392,7 +435,8 @@ public class Matrix {
             }
             else {
               A= new Matrix(4);
-            }               
+            }
+            A.interpolasi(A);             
           }
           else if (userinput == 5) {
             System.out.println("PILIH TIPE MASUKAN\n1.Dari keyboard\n2.Dari file");
