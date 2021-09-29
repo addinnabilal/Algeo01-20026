@@ -295,7 +295,6 @@ public class Matrix {
         printmenu();
         int userinput = input.nextInt();
         while (userinput !=6) {
-          printmenu();
           if (userinput == 1) {
             printmenuspl();
             int userinputspl = input.nextInt();
