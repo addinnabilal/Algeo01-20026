@@ -129,7 +129,10 @@ public class Operasi {
         return miden;
 
     }
+/*
+    Matrix invAdjoin (Matrix A) {
 
-
+    }
+*/
     
 }
