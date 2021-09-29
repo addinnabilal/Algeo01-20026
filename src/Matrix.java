@@ -97,41 +97,6 @@ public class Matrix {
     }
     }
 
-  
-    /* Ini yang punya addin
-    public Matrix inputMatrixFile() throws IOException{ 
-      String filename = input.nextLine().trim();
-      int row=0,col=0;
-      Scanner inputrow = new Scanner(new File(filename));
-      while (inputrow.hasNextLine()) {
-        row++;
-        Scanner inputcol = new Scanner(inputrow.nextLine());
-        while (inputcol.hasNextInt())
-        {
-          col++;
-        }
-        cols=col;
-      }
-      rows=row;
-
-      FileReader fileReader = new FileReader(filename);
-      double[][] data = new double[row][col];
-      BufferedReader br = new BufferedReader(fileReader);
-
-      for (int i=0;i<row;i++) {
-        String line=br.readLine();
-        String[] linesplitted = line.split("\\s+");
-        double[] convertedline= new double[col];
-        for (int j=0;j<col;j++){
-          convertedline[j]=Double.parseDouble(linesplitted[j]);
-        }
-        data[i]=convertedline;
-      }
-
-      Matrix A= new Matrix(data);
-      return A;
-    }*/
-
     void cramer(Matrix A) throws IOException{
       Matrix B = new Matrix(A.rows, A.cols-1);
       for (int i=0;i<B.rows;i++){
@@ -270,7 +235,6 @@ public class Matrix {
           est.M[i][est.cols-1]=sum;
         }
         est.gauss.eselonBaris(est);
-
       }
 
     void interpolasi(Matrix A){
@@ -311,7 +275,8 @@ public class Matrix {
     }
 
     public static void main(String[] args) throws IOException {
-       Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
+        Matrix A;
         printmenu();
         int userinput = input.nextInt();
         while (userinput !=6) {
@@ -319,52 +284,111 @@ public class Matrix {
           if (userinput == 1) {
             printmenuspl();
             int userinputspl = input.nextInt();
+            System.out.println("PILIH TIPE MASUKAN\n1.Dari keyboard\n2.Dari file");
+            int userinputtipe = input.nextInt();
             if (userinputspl == 1){
-              Matrix A = new Matrix(1);
+              if (userinputtipe==1){
+                A = new Matrix(1);
+              }
+              else {
+                A= new Matrix(4);
+              }
               A=A.gauss.eselonBaris(A);
               A.gauss.printSPL(A);
             }
             else if (userinputspl == 2){
-              Matrix A = new Matrix(1);
+              if (userinputtipe==1){
+                A = new Matrix(1);
+              }
+              else {
+                A= new Matrix(4);
+              }              
               A=A.gauss.eselonBarisRed(A);
               A.gauss.printSPL(A);
             }              
             else if (userinputspl == 3){
-              Matrix A = new Matrix(1);
+              if (userinputtipe==1){
+                A = new Matrix(1);
+              }
+              else {
+                A= new Matrix(4);
+              }              
               A.splBalikan();
             }
             else if (userinputspl == 4){
-              Matrix A = new Matrix(1);
+              if (userinputtipe==1){
+                A = new Matrix(1);
+              }
+              else {
+                A= new Matrix(4);
+              }
               A.cramer(A);
             }
           }
           else if (userinput == 2) {
             printmenudet();
             int userinputspl = input.nextInt();
+            System.out.println("PILIH TIPE MASUKAN\n1.Dari keyboard\n2.Dari file");
+            int userinputtipe = input.nextInt();
             if (userinputspl == 1){
-              Matrix A = new Matrix(2);
+              if (userinputtipe==1){
+                A = new Matrix(2);
+              }
+              else {
+                A= new Matrix(4);
+              }     
               System.out.println(A.operasi.DetGauss(A));
             }
             else if (userinputspl == 2){
-              Matrix A = new Matrix(2);
+              if (userinputtipe==1){
+                A = new Matrix(2);
+              }
+              else {
+                A= new Matrix(4);
+              }                 
             }              
           }
           else if (userinput == 3) {
             printmenuinverse();
             int userinputspl = input.nextInt();
+            System.out.println("PILIH TIPE MASUKAN\n1.Dari keyboard\n2.Dari file");
+            int userinputtipe = input.nextInt();
             if (userinputspl == 1){
-              Matrix A = new Matrix(2);
+              if (userinputtipe==1){
+                A = new Matrix(2);
+              }
+              else {
+                A= new Matrix(4);
+              }                   
               A.operasi.inverse(A).display();;
             }
             else if (userinputspl == 2){
-              Matrix A = new Matrix(2);
-            }      
+              if (userinputtipe==1){
+                A = new Matrix(2);
+              }
+              else {
+                A= new Matrix(4);
+              }                 }      
           }
           else if (userinput == 4) {
-            Matrix A = new Matrix(3);
+            System.out.println("PILIH TIPE MASUKAN\n1.Dari keyboard\n2.Dari file");
+            int userinputtipe = input.nextInt();
+            if (userinputtipe==1){
+              A = new Matrix(3);
+            }
+            else {
+              A= new Matrix(4);
+            }               
           }
           else if (userinput == 5) {
-            Matrix A = new Matrix(1);
+            System.out.println("PILIH TIPE MASUKAN\n1.Dari keyboard\n2.Dari file");
+            int userinputtipe = input.nextInt();
+            if (userinputtipe==1){
+              A = new Matrix(1);
+            }
+            else {
+              A= new Matrix(4);
+            }     
             A.regresi();
           }
           printmenu();
