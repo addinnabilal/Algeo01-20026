@@ -1,7 +1,8 @@
-import java.util.Scanner;
+// import java.util.Scanner;
 
 public class Gauss {
 
+    /* kali baris i dengan suatu konstanta k */
     public static void scaleRow(Matrix m, int i, double k) {
         int j, n = m.cols;
         for (j=0; j<n; j++) {
@@ -9,12 +10,14 @@ public class Gauss {
         }
     }
 
+    /* tukar baris i1 dengan baris i2 */
     public static void swapRow(Matrix m, int i1, int i2) {
         double[] temp = m.M[i1];
         m.M[i1] = m.M[i2];
         m.M[i2] = temp;
     }
 
+    /* tambahkan baris i2 dengan hasil kali i1 dan suatu konstanta k */
     public static void replaceRow(Matrix m, int i1, int i2, double k) {
         int j, n = m.cols;
         for (j=0; j<n; j++) {
@@ -22,6 +25,7 @@ public class Gauss {
         }
     }
 
+    /* operasi baris elementer */
     public static void oBEMatriks(Matrix A){
         int i, j, k, m = A.rows;
 
@@ -38,6 +42,7 @@ public class Gauss {
         }
     }
 
+    /* membuat matriks eselon baris */
     public static Matrix eselonBaris(Matrix A) {
         int i, j, m = A.rows, n = A.cols;
 
@@ -59,6 +64,29 @@ public class Gauss {
         return A;
     }
 
+    /* membuat matriks eselon baris tereduksi */
+    public static Matrix eselonBarisRed(Matrix A) {
+        int i, j, k, m = A.rows, n = A.cols;
+        A = eselonBaris(A);
+
+        for (i=1; i<m; i++) {
+            for (j=0; j<n; j++) {
+                if (A.M[i][j] == 1) {
+                    for (k=i-1; k>=0; k--) {
+                        if (A.M[k][j] != 0) {
+                            replaceRow(A, i, k, -(A.M[k][j]));
+                        }
+                    }
+                    break;
+                }
+                else if (A.M[i][j] == 0)    continue;
+            }
+        }
+
+        return A;
+    }
+
+    /* mencari solusi pada SPL yang memiliki solusi unik */
     public static double[] gaussSPL(Matrix A) {
         int i, j, m = A.rows, n = A.cols;
         double[] x = new double[m];     // solusi SPL
@@ -72,6 +100,7 @@ public class Gauss {
         return x;
     }
 
+    /* menggabungkan matriks SPL A dengan B pada Ax=B menjadi matriks augmented */
     public static Matrix augmented(Matrix A, double[] B) {
         int i, j, m = A.rows, n = A.cols;
         Matrix newA = new Matrix(m, n+1);
@@ -88,6 +117,7 @@ public class Gauss {
         return newA;
     }
 
+    /*  // mungkin ini main bisa dipakai di class main
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
@@ -120,11 +150,12 @@ public class Gauss {
         else if ((A.M[m-1][n] != 0) && (A.M[m-1][n-1] != 0)) {
             solusi = gaussSPL(A);
             for (i=0; i<solusi.length; i++) {
-                System.out.printf("x[%d] = %.3f", (i+1), (solusi[i]));
+                System.out.printf("x[%d] = %f", (i+1), (solusi[i]));
                 System.out.println();
             }
         }
-        /* else solusi parametrik belum */
+        // else solusi parametrik belum
     }
+    */
 
 }
