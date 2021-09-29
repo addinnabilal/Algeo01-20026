@@ -43,9 +43,8 @@ public class Gauss {
     }
 
     /* membuat matriks eselon baris */
-    public static Matrix eselonBaris(Matrix A) {
+    Matrix eselonBaris(Matrix A) {
         int i, j, m = A.rows, n = A.cols;
-
         oBEMatriks(A);
 
         for (i=0; i<m; i++) {
@@ -60,15 +59,13 @@ public class Gauss {
                 }
             }
         }
-
         return A;
     }
 
     /* membuat matriks eselon baris tereduksi */
-    public static Matrix eselonBarisRed(Matrix A) {
+    Matrix eselonBarisRed(Matrix A) {
         int i, j, k, m = A.rows, n = A.cols;
-        A = eselonBaris(A);
-
+        eselonBaris(A);
         for (i=1; i<m; i++) {
             for (j=0; j<n; j++) {
                 if (A.M[i][j] == 1) {
@@ -82,10 +79,24 @@ public class Gauss {
                 else if (A.M[i][j] == 0)    continue;
             }
         }
-
         return A;
+
     }
 
+    void printSPL(Matrix A){
+        int i, m = A.rows, n = A.cols;
+        double[] solusi;
+        if ((A.M[m-1][n] != 0) && (A.M[m-1][n-1] == 0)) {
+            System.out.println("\nSolusi SPL tidak ada.");
+        }
+        else if ((A.M[m-1][n] != 0) && (A.M[m-1][n-1] != 0)) {
+            solusi = gaussSPL(A);
+            for (i=0; i<solusi.length; i++) {
+                System.out.printf("x[%d] = %f", (i+1), (solusi[i]));
+                System.out.println();
+            }
+        }
+    }
     /* mencari solusi pada SPL yang memiliki solusi unik */
     public static double[] gaussSPL(Matrix A) {
         int i, j, m = A.rows, n = A.cols;
