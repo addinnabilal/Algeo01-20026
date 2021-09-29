@@ -66,10 +66,39 @@ public class Matrix {
       this.rows=n;
       this.cols=n+1;
       }
+      else if(a==4){
+        String filename = input.nextLine();
+        String text = "";
+        try {
+            FileReader reader = new FileReader(filename);
+            int data = reader.read();
+            while(data!=-1){
+                text += (char) data;
+                data = reader.read();
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        String[] ab = text.split("\\r?\\n");
+        this.rows = ab.length;
+        this.cols = ab[0].split(" ").length;
+        this.M = new double[rows][cols];
+        for(int i = 0; i < rows; i++){
+            String[] temp = ab[i].split(" ");
+            for(int j = 0; j <cols;j++){
+                M[i][j] = Double.parseDouble(temp[j]);
+            }
+        }
+    }
     }
 
   
-
+    /* Ini yang punya addin
     public Matrix inputMatrixFile() throws IOException{ 
       String filename = input.nextLine().trim();
       int row=0,col=0;
@@ -101,7 +130,7 @@ public class Matrix {
 
       Matrix A= new Matrix(data);
       return A;
-    }
+    }*/
 
     void cramer(Matrix A) throws IOException{
       Matrix B = new Matrix(A.rows, A.cols-1);
