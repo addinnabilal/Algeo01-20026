@@ -84,6 +84,7 @@ public class Gauss {
     /* print solusi SPL */
     void printSPL(Matrix A){
         int i, m = A.rows, n = A.cols;
+        A.display();
         double[] solusi;
         if ((A.M[m-1][n-1] != 0) && (A.M[m-1][n-2] == 0)) {
             System.out.println("\nSolusi SPL tidak ada.");
