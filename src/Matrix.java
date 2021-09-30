@@ -424,7 +424,7 @@ public class Matrix {
               else {
                 A= new Matrix(4);
               }                   
-              A.operasi.inverse(A).display();;
+              A.operasi.inverse(A).display();
             }
             else if (userinputspl == 2){
               if (userinputtipe==1){
@@ -432,7 +432,9 @@ public class Matrix {
               }
               else {
                 A= new Matrix(4);
-              }                 }      
+              }              
+              A.operasi.invAdjoin(A).display();   
+            }      
           }
           else if (userinput == 4) {
             System.out.println("PILIH TIPE MASUKAN\n1.Dari keyboard\n2.Dari file");

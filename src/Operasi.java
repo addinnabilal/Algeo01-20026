@@ -151,42 +151,55 @@ public class Operasi {
 
     /* mencari matriks balikan menggunakan determinan dan adjoin */
     Matrix invAdjoin (Matrix A) {
-        int i, j, i2, j2, k1, k2, n = A.rows;
+        int i, j, k1, k2, a, b, n = A.rows;
         double det = DetCofactor(A);
-        Matrix temp = new Matrix(n-1, n-1);
+        Matrix temp;
         Matrix cofactor = new Matrix(n, n);
         Matrix result = new Matrix(n, n);
-        
-        for (i=0; i<n; i++) {   // [i, j] indeks traversal matriks awal
+
+        for (i=0; i<n; i++) {
             for (j=0; j<n; j++) {
-                i2 = 0;     // [i2, j2] indeks traversal matriks temp
-                for (k1=0; k1<n; k1++) {    // [k1, k2] indeks traversal pengecekan
-                    j2 = 0;
+                temp = new Matrix(n-1, n-1);
+                a = 0;
+                b = 0;
+                // indeks traversal mengecek matriks
+                for (k1=0; k1<n; k1++) {
                     for (k2=0; k2<n; k2++) {
-                        if ((k1 == i) || (k2 == j))    continue;
-                        else {
-                            temp.M[i2][j2] = A.M[k1][k2];
+                        // masukkan elemen pada indeks selain i dan j
+                        if ((k1 != i) && (k2 != j)) {
+                            temp.M[a][b] = A.M[k1][k2];
+                            b++;
+                            if (b == (n-1)) {
+                                b = 0;
+                                a++;
+                            }
                         }
-                        j2++;
                     }
-                    i2++;
                 }
-                if ((i-j)%2 == 0) {
-                    cofactor.M[i][j] = DetCofactor(temp);
+                temp.display();
+                System.out.println();
+                if ((i+j)%2 == 0) {
+                    cofactor.M[i][j] = A.M[i][j] * DetCofactor(temp);
                 }
                 else {
-                    cofactor.M[i][j] = (-1) * DetCofactor(temp);
+                    cofactor.M[i][j] = (-1) * A.M[i][j] * DetCofactor(temp);
                 }
+                cofactor.display();
+                System.out.println();
             }
         }
-
-        for (i=0; i<n; i++) {   // transpose cofactor
+        cofactor.display();
+        System.out.println();
+        // transpose kofaktor untuk mendapat adjoin
+        for (i=0; i<n; i++) { 
             for (j=0; j<n; j++) {
                 result.M[i][j] = cofactor.M[j][i];
             }
         }
-
-        for (i=0; i<n; i++) {   // kali tiap baris dengan 1/det
+        result.display();
+        System.out.println();
+        // kali tiap baris dengan 1/det
+        for (i=0; i<n; i++) {   
             scaleRow(result, i, (1/det));
         }
 
