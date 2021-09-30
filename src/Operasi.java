@@ -1,5 +1,10 @@
+import java.io.*;
+import java.util.*;
+
+
 public class Operasi {
     String name;
+    Scanner input = new Scanner(System.in);
 
     void DisplayMatrix(Matrix M){
         for(int i=0;i<M.rows;i++){
@@ -10,12 +15,30 @@ public class Operasi {
         }
     }
 
-    void swap(Matrix m,int i, int j) {
-        double[] temp = m.M[i];
-        m.M[i] = m.M[j];
-        m.M[j] = temp;
+    /* kali baris i dengan suatu konstanta k */
+    void scaleRow(Matrix m, int i, double k) {
+        int j, n = m.cols;
+        for (j=0; j<n; j++) {
+            m.M[i][j] = k * m.M[i][j];
+        }
     }
 
+    /* tukar baris i1 dengan baris i2 */
+    void swapRow(Matrix m, int i1, int i2) {
+        double[] temp = m.M[i1];
+        m.M[i1] = m.M[i2];
+        m.M[i2] = temp;
+    }
+
+    /* tambahkan baris i2 dengan hasil kali i1 dan suatu konstanta k */
+    void replaceRow(Matrix m, int i1, int i2, double k) {
+        int j, n = m.cols;
+        for (j=0; j<n; j++) {
+            m.M[i2][j] = m.M[i2][j] + (k * m.M[i1][j]);
+        }
+    }
+
+    /* mencari determinan dengan reduksi baris */
     float DetGauss(Matrix m){
         Matrix mtemp = new Matrix(m.M);
         float hasil=1;
@@ -25,7 +48,7 @@ public class Operasi {
             for(int j=i+1; j<mtemp.rows; j++){
                 if(mtemp.M[i][i]<mtemp.M[j][i]){
                     count++;
-                    swap(mtemp,i,j);
+                    swapRow(mtemp,i,j);
 
                 }
             }
@@ -51,6 +74,7 @@ public class Operasi {
         return hasil*swap;
     }
 
+    /* mencari determinan dengan ekspansi kofaktor */
     float DetCofactor(Matrix m){
         int a,b;
         double sum=0;
@@ -82,11 +106,11 @@ public class Operasi {
             }
         }
 
-
         return (float) sum;
 
     }
 
+    /* mencari matriks balikan menggunakan reduksi baris dan matriks identitas */
     Matrix inverse(Matrix m){
         Matrix mtemp = new Matrix(m.M);
         Matrix miden = new Matrix(m.rows,m.cols);
@@ -94,8 +118,8 @@ public class Operasi {
         for(int i=0;i<mtemp.rows-1;i++){
             for(int j=i+1; j<mtemp.rows; j++){
                 if(mtemp.M[i][i]<mtemp.M[j][i]){
-                    swap(mtemp,i,j);
-                    swap(miden,i,j);
+                    swapRow(mtemp,i,j);
+                    swapRow(miden,i,j);
                 }
             }
             for(int k=i+1; k<mtemp.rows; k++){
@@ -129,10 +153,87 @@ public class Operasi {
         return miden;
 
     }
-/*
-    Matrix invAdjoin (Matrix A) {
+
+
+    Matrix InvAdj(Matrix M){
+        int a,b;
+        Matrix temp = new Matrix(M.rows, M.cols);
+        float detInv = 1/DetGauss(M);
+        for(int i=0; i<M.rows; i++){
+            for(int j=0; j<M.cols; j++){
+                Matrix temp2 = new Matrix(M.rows-1, M.cols-1);
+                a = 0;
+                for(int k=0; k<M.rows; k++){
+                    b = 0;
+                    for(int l=0; l<M.cols; l++){
+                        if(k!=i && l!=j){
+                            temp2.M[a][b] = M.M[k][l];
+                            b++;
+                        }
+                    }
+                    if(k!=i){
+                        a++;
+                    }
+                }
+                temp.M[i][j] =(1/detInv)*(DetGauss(temp2));
+                if(((i+1)%2==0) && (j+1)%2!=0){
+                    temp.M[i][j] *= (-1);
+                }else if((i==0||(i+1)%2!=0) && (j+1)%2==0){
+                    temp.M[i][j] *= (-1);
+                }
+            }
+        }
+
+
+        return temp;
 
     }
-*/
+
+    void SaveFile(Matrix M){
+        System.out.println("Masukkan nama file untuk di save");
+        String fileName = input.nextLine();
+        String temp = "";
+        for(int i=0;i<M.rows;i++){
+            for(int j=0;j<M.cols;j++){
+                if(j==M.cols-1){
+                    temp += (M.M[i][j]);
+                }else{
+                    temp += (M.M[i][j]) + " ";
+                }
+            }
+            temp += "\n";
+        }
+        
+        try {
+            FileWriter writer = new FileWriter(fileName);
+            writer.write(temp);
+            writer.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+    }
+
+    void SaveFile(float M){
+        System.out.println("Masukkan nama file untuk di save");
+        String fileName = input.nextLine();
+        String temp = "Determinan dari matriks adalah : ";
+        temp += (M);
+        
+        try {
+            FileWriter writer = new FileWriter(fileName);
+            writer.write(temp);
+            writer.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+    }
+
+
     
 }
