@@ -97,6 +97,18 @@ public class Matrix {
     }
     }
 
+    Matrix toInterpolasi(Matrix A){
+      Matrix B = new Matrix(rows,rows+1);
+      for (int i=0;i<B.rows;i++){
+        double x = this.M[i][0];
+        for (int j=0;j<B.cols-1;j++){
+          B.M[i][j]= Math.pow(x,j);
+        }
+        B.M[i][B.cols-1]=M[i][cols-1];
+      }
+      return B;
+    }
+
     void cramer(Matrix A) throws IOException{
       Matrix B = new Matrix(A.rows, A.cols-1);
       for (int i=0;i<B.rows;i++){
@@ -111,7 +123,9 @@ public class Matrix {
         double det = B.operasi.DetGauss(B);
         for (int j=0; j<A.cols-1;j++ ){
           double x = replaceColumn(A, j).operasi.DetGauss(replaceColumn(A, j))/det;
-          System.out.printf("x[%d] = %f\n",j+1,x);
+          if (Double.compare(x,0)!=0){
+            System.out.printf("x[%d] = %f\n",j+1,x);
+          }
         }
       }
       else {
@@ -268,7 +282,6 @@ public class Matrix {
             System.out.printf("y(x) =  %f +", (solusi[0]));
             for (i=1; i<solusi.length-1; i++) {
                 System.out.printf(" %fx^%d +", (solusi[i]),i);
-                System.out.println();
             }
             System.out.printf(" %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
             double result=solusi[0];
@@ -281,7 +294,7 @@ public class Matrix {
       }
 
     void interpolasi(Matrix A){
-      System.out.println("Masukkan nilai x yang akan ditaksir nilainya: ");
+      System.out.printf("Masukkan nilai x yang akan ditaksir nilainya: ");
       double x= input.nextDouble();
       A.gauss.eselonBaris(A);
       int i, m = A.rows, n = A.cols;
@@ -291,12 +304,31 @@ public class Matrix {
       }
       else if ((A.M[m-1][n-1] != 0) && (A.M[m-1][n-2] != 0)) {
           solusi = gauss.gaussSPL(A);
-          System.out.printf("p(x) =  %f +", (solusi[0]));
-          for (i=1; i<solusi.length-1; i++) {
-              System.out.printf(" %fx^%d +", (solusi[i]),i);
-              System.out.println();
+          if (Double.compare(solusi[0],0)>0) {
+            System.out.printf("p(x) =  %f ", (solusi[0]));
           }
-          System.out.printf(" %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
+          else if(Double.compare(solusi[1],0)<0){
+            System.out.printf("p(x) = - %f ", (solusi[0]));
+          }
+          else {
+            System.out.printf("p(x) = ");
+          }
+
+          for (i=1; i<solusi.length-1; i++) {
+            if (Double.compare(solusi[i],0)>0){
+              System.out.printf("+ %fx^%d ", (solusi[i]),i);
+            }            
+
+            else if (Double.compare(solusi[i],0)<0) {
+              System.out.printf(" %fx^%d ", (solusi[i]),i);
+            }
+          }
+          if (Double.compare(solusi[solusi.length-1],0)>0) {
+            System.out.printf("+ %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
+          }
+          else if(Double.compare(solusi[solusi.length-1],0)<0){
+            System.out.printf("  %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
+          }
           double sum=0;
           // taksir fungsi pada x
           for (i=0;i<solusi.length;i++){
@@ -442,6 +474,7 @@ public class Matrix {
             }
             else {
               A= new Matrix(4);
+              A=A.toInterpolasi(A);
             }
             A.interpolasi(A);             
           }
