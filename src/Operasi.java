@@ -10,12 +10,30 @@ public class Operasi {
         }
     }
 
-    void swap(Matrix m,int i, int j) {
-        double[] temp = m.M[i];
-        m.M[i] = m.M[j];
-        m.M[j] = temp;
+    /* kali baris i dengan suatu konstanta k */
+    void scaleRow(Matrix m, int i, double k) {
+        int j, n = m.cols;
+        for (j=0; j<n; j++) {
+            m.M[i][j] = k * m.M[i][j];
+        }
     }
 
+    /* tukar baris i1 dengan baris i2 */
+    void swapRow(Matrix m, int i1, int i2) {
+        double[] temp = m.M[i1];
+        m.M[i1] = m.M[i2];
+        m.M[i2] = temp;
+    }
+
+    /* tambahkan baris i2 dengan hasil kali i1 dan suatu konstanta k */
+    void replaceRow(Matrix m, int i1, int i2, double k) {
+        int j, n = m.cols;
+        for (j=0; j<n; j++) {
+            m.M[i2][j] = m.M[i2][j] + (k * m.M[i1][j]);
+        }
+    }
+
+    /* mencari determinan dengan reduksi baris */
     float DetGauss(Matrix m){
         Matrix mtemp = new Matrix(m.M);
         float hasil=1;
@@ -25,7 +43,7 @@ public class Operasi {
             for(int j=i+1; j<mtemp.rows; j++){
                 if(mtemp.M[i][i]<mtemp.M[j][i]){
                     count++;
-                    swap(mtemp,i,j);
+                    swapRow(mtemp,i,j);
 
                 }
             }
@@ -51,6 +69,7 @@ public class Operasi {
         return hasil*swap;
     }
 
+    /* mencari determinan dengan ekspansi kofaktor */
     float DetCofactor(Matrix m){
         int a,b;
         double sum=0;
@@ -82,11 +101,11 @@ public class Operasi {
             }
         }
 
-
         return (float) sum;
 
     }
 
+    /* mencari matriks balikan menggunakan reduksi baris dan matriks identitas */
     Matrix inverse(Matrix m){
         Matrix mtemp = new Matrix(m.M);
         Matrix miden = new Matrix(m.rows,m.cols);
@@ -94,8 +113,8 @@ public class Operasi {
         for(int i=0;i<mtemp.rows-1;i++){
             for(int j=i+1; j<mtemp.rows; j++){
                 if(mtemp.M[i][i]<mtemp.M[j][i]){
-                    swap(mtemp,i,j);
-                    swap(miden,i,j);
+                    swapRow(mtemp,i,j);
+                    swapRow(miden,i,j);
                 }
             }
             for(int k=i+1; k<mtemp.rows; k++){
@@ -129,10 +148,49 @@ public class Operasi {
         return miden;
 
     }
-/*
-    Matrix invAdjoin (Matrix A) {
 
+    /* mencari matriks balikan menggunakan determinan dan adjoin */
+    Matrix invAdjoin (Matrix A) {
+        int i, j, i2, j2, k1, k2, n = A.rows;
+        double det = DetCofactor(A);
+        Matrix temp = new Matrix(n-1, n-1);
+        Matrix cofactor = new Matrix(n, n);
+        Matrix result = new Matrix(n, n);
+        
+        for (i=0; i<n; i++) {   // [i, j] indeks traversal matriks awal
+            for (j=0; j<n; j++) {
+                i2 = 0;     // [i2, j2] indeks traversal matriks temp
+                for (k1=0; k1<n; k1++) {    // [k1, k2] indeks traversal pengecekan
+                    j2 = 0;
+                    for (k2=0; k2<n; k2++) {
+                        if ((k1 == i) || (k2 == j))    continue;
+                        else {
+                            temp.M[i2][j2] = A.M[k1][k2];
+                        }
+                        j2++;
+                    }
+                    i2++;
+                }
+                if ((i-j)%2 == 0) {
+                    cofactor.M[i][j] = DetCofactor(temp);
+                }
+                else {
+                    cofactor.M[i][j] = (-1) * DetCofactor(temp);
+                }
+            }
+        }
+
+        for (i=0; i<n; i++) {   // transpose cofactor
+            for (j=0; j<n; j++) {
+                result.M[i][j] = cofactor.M[j][i];
+            }
+        }
+
+        for (i=0; i<n; i++) {   // kali tiap baris dengan 1/det
+            scaleRow(result, i, (1/det));
+        }
+
+        return result;
     }
-*/
     
 }
