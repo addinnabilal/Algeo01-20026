@@ -38,7 +38,7 @@ public class main {
 				  }else{
 					A = new Matrix(4);
 				  }
-				gauss.eselonBaris(A);
+				A = gauss.eselonBaris(A);
 				gauss.printSPL(A);
 			  }
 			  else if (userinputspl == 2){
