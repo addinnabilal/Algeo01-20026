@@ -1,5 +1,10 @@
+import java.io.*;
+import java.util.*;
+
+
 public class Operasi {
     String name;
+    Scanner input = new Scanner(System.in);
 
     void DisplayMatrix(Matrix M){
         for(int i=0;i<M.rows;i++){
@@ -149,61 +154,86 @@ public class Operasi {
 
     }
 
-    /* mencari matriks balikan menggunakan determinan dan adjoin */
-    Matrix invAdjoin (Matrix A) {
-        int i, j, k1, k2, a, b, n = A.rows;
-        double det = DetCofactor(A);
-        Matrix temp;
-        Matrix cofactor = new Matrix(n, n);
-        Matrix result = new Matrix(n, n);
 
-        for (i=0; i<n; i++) {
-            for (j=0; j<n; j++) {
-                temp = new Matrix(n-1, n-1);
+    Matrix InvAdj(Matrix M){
+        int a,b;
+        Matrix temp = new Matrix(M.rows, M.cols);
+        float detInv = 1/DetGauss(M);
+        for(int i=0; i<M.rows; i++){
+            for(int j=0; j<M.cols; j++){
+                Matrix temp2 = new Matrix(M.rows-1, M.cols-1);
                 a = 0;
-                b = 0;
-                // indeks traversal mengecek matriks
-                for (k1=0; k1<n; k1++) {
-                    for (k2=0; k2<n; k2++) {
-                        // masukkan elemen pada indeks selain i dan j
-                        if ((k1 != i) && (k2 != j)) {
-                            temp.M[a][b] = A.M[k1][k2];
+                for(int k=0; k<M.rows; k++){
+                    b = 0;
+                    for(int l=0; l<M.cols; l++){
+                        if(k!=i && l!=j){
+                            temp2.M[a][b] = M.M[k][l];
                             b++;
-                            if (b == (n-1)) {
-                                b = 0;
-                                a++;
-                            }
                         }
                     }
+                    if(k!=i){
+                        a++;
+                    }
                 }
-                temp.display();
-                System.out.println();
-                if ((i+j)%2 == 0) {
-                    cofactor.M[i][j] = A.M[i][j] * DetCofactor(temp);
+                temp.M[i][j] =(1/detInv)*(DetGauss(temp2));
+                if(((i+1)%2==0) && (j+1)%2!=0){
+                    temp.M[i][j] *= (-1);
+                }else if((i==0||(i+1)%2!=0) && (j+1)%2==0){
+                    temp.M[i][j] *= (-1);
                 }
-                else {
-                    cofactor.M[i][j] = (-1) * A.M[i][j] * DetCofactor(temp);
-                }
-                cofactor.display();
-                System.out.println();
             }
-        }
-        cofactor.display();
-        System.out.println();
-        // transpose kofaktor untuk mendapat adjoin
-        for (i=0; i<n; i++) { 
-            for (j=0; j<n; j++) {
-                result.M[i][j] = cofactor.M[j][i];
-            }
-        }
-        result.display();
-        System.out.println();
-        // kali tiap baris dengan 1/det
-        for (i=0; i<n; i++) {   
-            scaleRow(result, i, (1/det));
         }
 
-        return result;
+
+        return temp;
+
     }
+
+    void SaveFile(Matrix M){
+        System.out.println("Masukkan nama file untuk di save");
+        String fileName = input.nextLine();
+        String temp = "";
+        for(int i=0;i<M.rows;i++){
+            for(int j=0;j<M.cols;j++){
+                if(j==M.cols-1){
+                    temp += (M.M[i][j]);
+                }else{
+                    temp += (M.M[i][j]) + " ";
+                }
+            }
+            temp += "\n";
+        }
+        
+        try {
+            FileWriter writer = new FileWriter(fileName);
+            writer.write(temp);
+            writer.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+    }
+
+    void SaveFile(float M){
+        System.out.println("Masukkan nama file untuk di save");
+        String fileName = input.nextLine();
+        String temp = "Determinan dari matriks adalah : ";
+        temp += (M);
+        
+        try {
+            FileWriter writer = new FileWriter(fileName);
+            writer.write(temp);
+            writer.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+    }
+
+
     
 }

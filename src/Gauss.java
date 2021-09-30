@@ -1,3 +1,5 @@
+// import java.util.Scanner;
+
 public class Gauss {
     Operasi operasi = new Operasi();
 
@@ -89,5 +91,4 @@ public class Gauss {
         }
         return x;
     }
-
 }
