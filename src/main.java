@@ -40,6 +40,7 @@ public class main {
 				  }
 				A = gauss.eselonBaris(A);
 				gauss.printSPL(A);
+				operasi.SaveFile(A.spl);
 			  }
 			  else if (userinputspl == 2){
 				if(userinputtipe==1){
@@ -49,6 +50,7 @@ public class main {
 				  }
 				A = gauss.eselonBarisRed(A);
 				gauss.printSPL(A);
+				operasi.SaveFile(A.spl);
 			  }              
 			  else if (userinputspl == 3){
 				if(userinputtipe==1){
@@ -58,6 +60,7 @@ public class main {
 				  }
 
 				A.splBalikan(A);
+				operasi.SaveFile(A.spl);
 			  }
 			  else if (userinputspl == 4){
 				if(userinputtipe==1){
@@ -66,6 +69,7 @@ public class main {
 					A = new Matrix(4);
 				  }
 				A.cramer(A);
+				operasi.SaveFile(A.spl);
 			  }
 			}
 			else if (userinput == 2) {
@@ -170,6 +174,4 @@ public class main {
 		  
 		  input.close();
 		}
-	  
-
 }
