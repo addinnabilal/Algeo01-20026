@@ -6,9 +6,8 @@
 ## Table of Contents
 * [General Info](#general-information)
 * [Features](#features)
-* [Setup](#setup)
 * [Usage](#usage)
-* [Project Status](#project-status)
+* [Future Improvements](#future-improvements)
 * [Contributors](#contact)
 
 
@@ -32,10 +31,6 @@
 - Regresi Linear Berganda
 
 
-## Setup
-Requirements: JDK 
-
-
 ## Usage
 ### Run Manual
 1. Run melalui folder src dengan mengetikkan  `cd src` pada terminal
@@ -44,7 +39,10 @@ Requirements: JDK
 3. Jalankan main.java dengan mangetikkan `java main` pada terminal
 ### Run Menggunakan Windows Batch File
 1. Clone project ini
-2. Di dalam direktori, jalankan run.bat atau ketik `menu.bat` pada terminal direktori 
+2. Di dalam direktori, jalankan run.bat atau ketik `run.bat` pada terminal direktori 
+
+## Future Improvements
+- Penyelesaian SPL degan solusi parametrik
 
 
 ## Contributors
