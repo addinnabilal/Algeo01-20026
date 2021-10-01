@@ -105,6 +105,7 @@ public class Matrix {
           B.M[i][j]=A.M[i][j];
         }
       }
+
       if (B.cols != B.rows){
         System.out.println("Jumlah equation tidak sama dengan jumlah variabel (jumlah baris dan kolom pada matriks koefisien tidak sama). Metode cramer tidak dapat diterapkan pada SPL ini.");
         A.spl = "Jumlah equation tidak sama dengan jumlah variabel (jumlah baris dan kolom pada matriks koefisien tidak sama). Metode cramer tidak dapat diterapkan pada SPL ini.";
@@ -302,7 +303,12 @@ public class Matrix {
             System.out.printf("y = %f\n",result);
             temp = "y = " + result + "\n";
         }
-        operasi.SaveFile(temp);
+        System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				  int a = input.nextInt();
+				  if(a==1){
+          operasi.SaveFile(temp);
+				}
+        
       }
 
       void interpolasi(Matrix A){
@@ -348,7 +354,11 @@ public class Matrix {
             System.out.printf("p(%f) = %f\n",x,sum);
             temp += "p(" + x+") = " + sum + "\n";
         }
-        operasi.SaveFile(temp);
+        System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				  int a = input.nextInt();
+				  if(a==1){
+          operasi.SaveFile(temp);
+				}
       }
 
       public void display() {
