@@ -1,0 +1,1 @@
+Jumlah equation tidak sama dengan jumlah variabel (jumlah baris dan kolom pada matriks koefisien tidak sama). Metode matriks balikan tidak dapat diterapkan pada SPL ini.

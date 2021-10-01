@@ -274,15 +274,26 @@ public class Matrix {
         }
         else if ((est.M[m-1][n-1] != 0) && (est.M[m-1][n-2] != 0)) {
             solusi = gauss.gaussSPL(est);
-            System.out.printf("y(x) =  %f +", (solusi[0]));
-            temp = "y(x) = " + (solusi[0]) + " + ";
-            for (i=1; i<solusi.length-1; i++) {
-                System.out.printf(" %fx^%d +", (solusi[i]),i);
-                temp = (solusi[i]+"x^" + i + " + \n");
-                System.out.println();
+            if (Double.compare(solusi[0],0)!=0){
+              System.out.printf("y(x) =  %f ", (solusi[0]));
+              temp += "p(x) = " + solusi[0] + " +";
             }
-            System.out.printf(" %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
-            temp = solusi[solusi.length-1]+"x^" + (solusi.length-1) + "\n";
+            else {
+              System.out.printf("p(x) = ");
+              temp += "p(x) = " ;
+            }
+            for (i=1; i<solusi.length; i++) {
+                if (Double.compare(solusi[i],0)>0){
+                  System.out.printf(" + %fx^%d", (solusi[i]),i);
+                  temp += " + " + solusi[i] + "x^" + i;
+                }
+                else if (Double.compare(solusi[i],0)<0){
+                  System.out.printf(" %fx^%d", (solusi[i]),i);
+                  temp += " " + solusi[i] + "x^" + i;
+                }
+            }
+            System.out.println();
+            temp+= "\n";
             double result=solusi[0];
             // taksir fungsi pada x
             for (i=1;i<solusi.length;i++){
@@ -301,21 +312,34 @@ public class Matrix {
         int i, m = A.rows, n = A.cols;
         double[] solusi;
         String temp="";
-        if ((A.M[m-1][n-1] != 0) && (A.M[m-1][n-2] == 0)) {
+        if ((Double.compare(A.M[m-1][n-1],0) != 0) && (Double.compare(A.M[m-1][n-2],0) == 0)) {
             System.out.println("\nSolusi SPL tidak ada.");
             temp += "Solusi SPL tidak ada.\n";
         }
-        else if ((A.M[m-1][n-1] != 0) && (A.M[m-1][n-2] != 0)) {
+        else if ((Double.compare(A.M[m-1][n-1],0) != 0) && (Double.compare(A.M[m-1][n-2],0) != 0)) {
             solusi = gauss.gaussSPL(A);
-            System.out.printf("p(x) =  %f +", (solusi[0]));
-            temp += "p(x) = " + solusi[0] + " +";
-            for (i=1; i<solusi.length-1; i++) {
-                System.out.printf(" %fx^%d +", (solusi[i]),i);
-                temp += " " + solusi[i] + "x^" + i + " +\n";
-                System.out.println();
+            if (Double.compare(solusi[0],0)!=0){
+              System.out.printf("p(x) =  %f", (solusi[0]));
+              temp += "p(x) = " + solusi[0] + " +";
             }
-            System.out.printf(" %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
-            temp += " " + solusi[i] + "x^" + i + "\n";
+            else {
+              System.out.printf("p(x) = ");
+              temp += "p(x) = " ;
+            }
+            for (i=1; i<solusi.length; i++) {
+              if (Double.compare(solusi[i],0)>0){
+                System.out.printf(" + %fx^%d", (solusi[i]),i);
+                temp += " + " + solusi[i] + "x^" + i;
+              }
+              else if (Double.compare(solusi[i],0)<0){
+                System.out.printf(" %fx^%d", (solusi[i]),i);
+                temp += " " + solusi[i] + "x^" + i;
+              }
+            }
+
+            System.out.println();
+            temp+= "\n";
+
             double sum=0;
             // taksir fungsi pada x
             for (i=0;i<solusi.length;i++){

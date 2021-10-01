@@ -3,7 +3,6 @@ import java.util.*;
 
 
 public class Operasi {
-    String name;
     
     Scanner input = new Scanner(System.in);
 
@@ -31,7 +30,7 @@ public class Operasi {
         m.M[i2] = temp;
     }
 
-    /* tambahkan baris i2 dengan hasil kali i1 dan suatu konstanta k */
+    /* tambahkan baris i2 dengan hasil kali i1 dengan suatu konstanta k */
     void replaceRow(Matrix m, int i1, int i2, double k) {
         int j, n = m.cols;
         for (j=0; j<n; j++) {
