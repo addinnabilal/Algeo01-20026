@@ -97,7 +97,17 @@ public class Matrix {
         }
     }
     }
-
+    Matrix toInterpolasi(Matrix A){
+      Matrix B = new Matrix(rows,rows+1);
+      for (int i=0;i<B.rows;i++){
+        double x = this.M[i][0];
+        for (int j=0;j<B.cols-1;j++){
+          B.M[i][j]= Math.pow(x,j);
+        }
+        B.M[i][B.cols-1]=M[i][cols-1];
+      }
+      return B;
+    }
     void cramer(Matrix A) throws IOException{
       Matrix B = new Matrix(A.rows, A.cols-1);
       for (int i=0;i<B.rows;i++){
@@ -277,7 +287,7 @@ public class Matrix {
             solusi = gauss.gaussSPL(est);
             if (Double.compare(solusi[0],0)!=0){
               System.out.printf("y(x) =  %f ", (solusi[0]));
-              temp += "p(x) = " + solusi[0] + " +";
+              temp += "p(x) = " + solusi[0];
             }
             else {
               System.out.printf("p(x) = ");
@@ -326,7 +336,7 @@ public class Matrix {
             solusi = gauss.gaussSPL(A);
             if (Double.compare(solusi[0],0)!=0){
               System.out.printf("p(x) =  %f", (solusi[0]));
-              temp += "p(x) = " + solusi[0] + " +";
+              temp += "p(x) = " + solusi[0];
             }
             else {
               System.out.printf("p(x) = ");

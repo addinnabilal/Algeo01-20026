@@ -84,7 +84,7 @@ public class Gauss {
             for (i=0; i<solusi.length; i++) {
                 System.out.printf("x[%d] = %f", (i+1), (solusi[i]));
                 System.out.println();
-                A.spl = "x["+(i+1)+"] = "+(solusi[i]+"\n"); // <- Buat output ke file
+                A.spl += "x["+(i+1)+"] = "+(solusi[i]+"\n"); // <- Buat output ke file
             }
         }
     }
