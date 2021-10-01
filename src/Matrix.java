@@ -54,7 +54,7 @@ public class Matrix {
       this.cols=n;
       }
       else if (a==3) {
-        System.out.println("Masukkan jumlah n");
+        System.out.println("Masukkan jumlah baris dan kolom");
         int n = input.nextInt();
         this.M = new double[n][n+1];
         for (int i=0;i<n;i++){
@@ -98,18 +98,6 @@ public class Matrix {
     }
     }
 
-    Matrix toInterpolasi(Matrix A){
-      Matrix B = new Matrix(rows,rows+1);
-      for (int i=0;i<B.rows;i++){
-        double x = this.M[i][0];
-        for (int j=0;j<B.cols-1;j++){
-          B.M[i][j]= Math.pow(x,j);
-        }
-        B.M[i][B.cols-1]=M[i][cols-1];
-      }
-      return B;
-    }
-
     void cramer(Matrix A) throws IOException{
       Matrix B = new Matrix(A.rows, A.cols-1);
       for (int i=0;i<B.rows;i++){
@@ -125,9 +113,6 @@ public class Matrix {
         double det = B.operasi.DetGauss(B);
         for (int j=0; j<A.cols-1;j++ ){
           double x = replaceColumn(A, j).operasi.DetGauss(replaceColumn(A, j))/det;
-          if (Double.compare(x,0)!=0){
-            System.out.printf("x[%d] = %f\n",j+1,x);
-          }
           System.out.printf("x[%d] = %f\n",j+1,x);
           A.spl = ("x["+(j+1)+"] = "+x+"\n");
         }
@@ -289,22 +274,15 @@ public class Matrix {
         }
         else if ((est.M[m-1][n-1] != 0) && (est.M[m-1][n-2] != 0)) {
             solusi = gauss.gaussSPL(est);
-            System.out.printf("y(x) =  %f", (solusi[0]));
+            System.out.printf("y(x) =  %f +", (solusi[0]));
             temp = "y(x) = " + (solusi[0]) + " + ";
-            for (i=1; i<solusi.length; i++) {
-              if (Double.compare(solusi[i],0)>0){
-                System.out.printf(" + %fx^%d", (solusi[i]),i);
-                temp += " + " + solusi[i] + "x^" + i;
-              }
-              else if (Double.compare(solusi[i],0)<0){
-                System.out.printf(" %fx^%d", (solusi[i]),i);
+            for (i=1; i<solusi.length-1; i++) {
+                System.out.printf(" %fx^%d +", (solusi[i]),i);
                 temp = (solusi[i]+"x^" + i + " + \n");
-                temp += " " + solusi[i] + "x^" + i;
-              }
+                System.out.println();
             }
-            System.out.println();
-            temp += "\n";
-
+            System.out.printf(" %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
+            temp = solusi[solusi.length-1]+"x^" + (solusi.length-1) + "\n";
             double result=solusi[0];
             // taksir fungsi pada x
             for (i=1;i<solusi.length;i++){
@@ -313,7 +291,7 @@ public class Matrix {
             System.out.printf("y = %f\n",result);
             temp = "y = " + result + "\n";
         }
-        operasi.saveFile(temp);
+        operasi.SaveFile(temp);
       }
 
       void interpolasi(Matrix A){
@@ -324,185 +302,37 @@ public class Matrix {
         double[] solusi;
         String temp="";
         if ((A.M[m-1][n-1] != 0) && (A.M[m-1][n-2] == 0)) {
-          System.out.println("\nSolusi SPL tidak ada.");
-          temp += "Solusi SPL tidak ada.\n";
+            System.out.println("\nSolusi SPL tidak ada.");
+            temp += "Solusi SPL tidak ada.\n";
         }
         else if ((A.M[m-1][n-1] != 0) && (A.M[m-1][n-2] != 0)) {
-          solusi = gauss.gaussSPL(A);
-          if (Double.compare(solusi[0],0)!=0) {
-            System.out.printf("p(x) =  %f ", (solusi[0]));
-            temp += "p(x) = " + solusi[0];
-          }
-          else {
-            System.out.printf("p(x) = ");
-            temp += "p(x) =" ;
-          }
-
-          for (i=1; i<solusi.length; i++) {
-            if (Double.compare(solusi[i],0)>0){
-              System.out.printf("+ %fx^%d ", (solusi[i]),i);
-              temp += " + " + solusi[i] + "x^" + i;
-            }            
-            else if (Double.compare(solusi[i],0)<0) {
-              System.out.printf(" %fx^%d ", (solusi[i]),i);
-              temp += " " + solusi[i] + "x^" + i;
+            solusi = gauss.gaussSPL(A);
+            System.out.printf("p(x) =  %f +", (solusi[0]));
+            temp += "p(x) = " + solusi[0] + " +";
+            for (i=1; i<solusi.length-1; i++) {
+                System.out.printf(" %fx^%d +", (solusi[i]),i);
+                temp += " " + solusi[i] + "x^" + i + " +\n";
+                System.out.println();
             }
-          }
-
-          temp += "\n";
-          System.out.println();
-
-          double sum=0;
-          // taksir fungsi pada x
-          for (i=0;i<solusi.length;i++){
-            sum += solusi[i]* Math.pow(x,i);
-          }
-          System.out.printf("p(%f) = %f\n",x,sum);
-          temp += "p(" + x+") = " + sum + "\n";
+            System.out.printf(" %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
+            temp += " " + solusi[i] + "x^" + i + "\n";
+            double sum=0;
+            // taksir fungsi pada x
+            for (i=0;i<solusi.length;i++){
+              sum += solusi[i]* Math.pow(x,i);
+            }
+            System.out.printf("p(%f) = %f\n",x,sum);
+            temp += "p(" + x+") = " + sum + "\n";
         }
         operasi.SaveFile(temp);
       }
 
-    public void display() {
-      for (double[] row: M){
-        System.out.println(Arrays.toString(row));
+      public void display() {
+        for (double[] row: M){
+          System.out.println(Arrays.toString(row));
+        }
       }
-    }
+  
 
-    File createFile() throws IOException{
-        String fileName = input.nextLine().trim();
-        File file = new File(fileName);
-        while (!file.createNewFile()) {
-          fileName = input.nextLine().trim();
-          file = new File(fileName);
-        }
-        return file;
-    }
 
-    static void printmenu(){
-      System.out.println("MENU");
-      System.out.println("1. Sistem persamaan linier\n2. determinan\n3. Matriks balikan\n4. Interpolasi polinom\n5. Regresi Linier berganda\n6.Keluar");
-    }
-    static void printmenuspl(){
-      System.out.println("1. Metode eliminasi Gauss\n2. Metode eliminasi Gauss-Jordan\n3. Metode matriks balikan\n4. Kaidah Cramer");
-    }
-
-    static void printmenudet(){
-      System.out.println("1. Metode eliminasi Gauss\n2. Metode kofaktor");
-    }
-
-    static void printmenuinverse(){
-      System.out.println("1. Metode eliminasi Gauss\n2. Metode adjoin");
-    }
-
-    public static void main(String[] args) throws IOException {
-        Scanner input = new Scanner(System.in);
-        Matrix A;
-        printmenu();
-        int userinput = input.nextInt();
-        while (userinput !=6) {
-          if (userinput == 1) {
-            printmenuspl();
-            int userinputspl = input.nextInt();
-            System.out.println("PILIH TIPE MASUKAN\n1.Dari keyboard\n2.Dari file");
-            int userinputtipe = input.nextInt();
-            if (userinputspl == 1){
-              if (userinputtipe==1){
-                A = new Matrix(1);
-              }
-              else {
-                A= new Matrix(4);
-              }
-              A=A.gauss.eselonBaris(A);
-              A.gauss.printSPL(A);
-            }
-            else if (userinputspl == 2){
-              if (userinputtipe==1){
-                A = new Matrix(1);
-              }
-              else {
-                A= new Matrix(4);
-              }              
-              A=A.gauss.eselonBarisRed(A);
-              A.gauss.printSPL(A);
-            }              
-            else if (userinputspl == 3){
-              if (userinputtipe==1){
-                A = new Matrix(1);
-              }
-              else {
-                A= new Matrix(4);
-              }              
-              A.splBalikan(A);
-            }
-            else if (userinputspl == 4){
-              if (userinputtipe==1){
-                A = new Matrix(1);
-              }
-              else {
-                A= new Matrix(4);
-              }
-              A.cramer(A);
-            }
-          }
-          else if (userinput == 2) {
-            printmenudet();
-            int userinputspl = input.nextInt();
-            System.out.println("PILIH TIPE MASUKAN\n1.Dari keyboard\n2.Dari file");
-            int userinputtipe = input.nextInt();
-            if (userinputspl == 1){
-              if (userinputtipe==1){
-                A = new Matrix(2);
-              }
-              else {
-                A= new Matrix(4);
-              }     
-              System.out.println(A.operasi.DetGauss(A));
-            }
-            else if (userinputspl == 2){
-              if (userinputtipe==1){
-                A = new Matrix(2);
-              }
-              else {
-                A= new Matrix(4);
-              }                 
-            }              
-          }
-          else if (userinput == 3) {
-            printmenuinverse();
-            int userinputspl = input.nextInt();
-            System.out.println("PILIH TIPE MASUKAN\n1.Dari keyboard\n2.Dari file");
-            int userinputtipe = input.nextInt();
-            if (userinputspl == 1){
-              if (userinputtipe==1){
-                A = new Matrix(2);
-              }
-              else {
-                A= new Matrix(4);
-              }                   
-              A.operasi.inverse(A).display();;
-            }
-            else if (userinputspl == 2){
-              if (userinputtipe==1){
-                A = new Matrix(2);
-              }
-              else {
-                A= new Matrix(4);
-              }                 }      
-          }
-          else if (userinput == 4) {
-            System.out.println("PILIH TIPE MASUKAN\n1.Dari keyboard\n2.Dari file");
-            int userinputtipe = input.nextInt();
-            if (userinputtipe==1){
-              A = new Matrix(3);
-            }
-            else {
-              A= new Matrix(4);
-              A=A.toInterpolasi(A);
-            }
-          }
-          input.close();
-        }
-
-    }
 }

@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Operasi {
     String name;
+    
     Scanner input = new Scanner(System.in);
 
     void DisplayMatrix(Matrix M){
@@ -175,17 +176,24 @@ public class Operasi {
                         a++;
                     }
                 }
-                temp.M[i][j] =(1/detInv)*(DetGauss(temp2));
+                temp.M[i][j] = (DetGauss(temp2))*detInv;
                 if(((i+1)%2==0) && (j+1)%2!=0){
                     temp.M[i][j] *= (-1);
                 }else if((i==0||(i+1)%2!=0) && (j+1)%2==0){
                     temp.M[i][j] *= (-1);
                 }
+
+            }
+        }
+        Matrix mtemp = new Matrix(M.rows, M.cols);
+        for(int i=0; i<mtemp.rows;i++){
+            for(int j=0; j<mtemp.cols;j++){
+                mtemp.M[j][i] = temp.M[i][j];
             }
         }
 
 
-        return temp;
+        return mtemp;
 
     }
 
@@ -232,6 +240,22 @@ public class Operasi {
         }
 
 
+    }
+
+    void SaveFile(String name){
+        System.out.println("Masukkan nama file untuk di save");
+        String fileName = input.nextLine();
+        String temp = "";
+        temp += name;
+        
+        try {
+            FileWriter writer = new FileWriter(fileName);
+            writer.write(temp);
+            writer.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 

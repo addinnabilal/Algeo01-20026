@@ -64,11 +64,12 @@ public class Gauss {
     /* print solusi SPL */
     void printSPL(Matrix A){
         int i, m = A.rows, n = A.cols;
+        A.display();
         double[] solusi;
-        if ((Double.compare(A.M[m-1][n-1],0) != 0) && (Double.compare(A.M[m-1][n-2],0) == 0)) {
+        if ((A.M[m-1][n-1] != 0.0) && (A.M[m-1][n-2] == 0.0)) {
             System.out.println("\nSolusi SPL tidak ada.");
         }
-        else if ((Double.compare(A.M[m-1][n-1],0) != 0) && (Double.compare(A.M[m-1][n-2],0) != 0)) {
+        else if ((A.M[m-1][n-1] != 0.0) && (A.M[m-1][n-2] != 0.0)) {
             solusi = gaussSPL(A);
             for (i=0; i<solusi.length; i++) {
                 System.out.printf("x[%d] = %f", (i+1), (solusi[i]));
