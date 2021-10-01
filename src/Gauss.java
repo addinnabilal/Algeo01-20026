@@ -74,16 +74,12 @@ public class Gauss {
 
     /* print solusi SPL */
     void printSPL(Matrix A){
-<<<<<<< HEAD
-        int i, m = A.rows, n = A.cols;
-=======
         int i, m = A.rows, n = A.cols, countRowZero=0;
-        A.display();
->>>>>>> e557cb6c69376432460023c99d122f7d5015ea8a
         double[] solusi;
         for (i=A.rows-1; i>=0; i--) {
             if ((Double.compare((A.M[i][n-1]), 0.0) != 0) && (operasi.isSPLRowZero(A, i))) {
-                System.out.println("\nSolusi SPL tidak ada.");
+                System.out.println("Solusi SPL tidak ada.");
+                A.spl += "Solusi SPL tidak ada.";
                 return;
             }
             if ((Double.compare((A.M[i][n-1]), 0.0) == 0) && (operasi.isSPLRowZero(A, i)))

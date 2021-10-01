@@ -39,7 +39,6 @@ public class main {
 					A = new Matrix(4);
 				  }
 				A = gauss.eselonBaris(A);
-				A.display();
 				gauss.printSPL(A);
 				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
 				int a = input.nextInt();
@@ -55,7 +54,6 @@ public class main {
 					A = new Matrix(4);
 				  }
 				A = gauss.eselonBarisRed(A);
-				A.display();
 				gauss.printSPL(A);
 				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
 				int a = input.nextInt();
