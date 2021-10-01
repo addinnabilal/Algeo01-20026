@@ -96,8 +96,12 @@ public class Gauss {
             }
         }
         else if (m-countRowZero < n-1) {
-            System.out.println("SPL memiliki banyak solusi.");
-            A.spl += "SPL memiliki banyak solusi.";
+            String[] solusiP = gaussSPLParametrik(A);
+            for (i=0; i<solusiP.length; i++) {
+                System.out.printf("x[%d] = " + (solusiP[i]), (i+1));
+                System.out.println();
+                A.spl += "x["+(i+1)+"] = "+(solusiP[i]+"\n"); // <- Buat output ke file
+            }
         }
     }
     
@@ -118,23 +122,47 @@ public class Gauss {
         }
         return x;
     }
-/*
+
     String[] gaussSPLParametrik(Matrix A) {
         int i, j, m = A.rows, n = A.cols;
-        String variabel = "abcdefghijklmnopqrstuvwxyz";
+        char[] variabel = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
         String[] x = new String[n-1];     // solusi SPL
-        double[] tempX = new double[n-1];
-        for (i=m-1; i>=0; i--) {
-            double temp = 0.0;
-            for (j=i+1; j<m; j++) {
-                temp += (A.M[i][j] * x[j]);
-            }
-            if ((Double.compare((A.M[i][n-1]), 0.0) == 0) && (operasi.isSPLRowZero(A, i))) { 
-                x[i] = Character.toString(variabel.charAt(i));
-            }
-            x[i] = ((A.M[i][n-1])-temp)/(A.M[i][i]);
+        double tempX;
+        String tempVar="";
+
+        for (j=0; j<n-1; j++) {
+            if (operasi.isColsZero(A, j))
+                x[j] = Character.toString(variabel[j]);
         }
+
+        for (i=m-1; i>=0; i--) { 
+            int varToFind = operasi.getIdxRowLeadingNum(A, i);
+            if ((Double.compare((A.M[i][varToFind]), 1.0) != 0)) {
+                operasi.scaleRow(A, i, (1/(A.M[i][varToFind])));
+            }
+            for (j=varToFind+1; j<n-1; j++) {
+                if ((Double.compare((A.M[i][j]), 0.0) == 0)) {
+                    if (j == n-2) {
+                        tempX = (A.M[i][varToFind]) / (A.M[i][j+1]);
+                        x[varToFind] = String.valueOf(tempX);
+                    }
+                    else {
+                        continue;
+                    }
+                }
+                else {
+                    if (x[j] == null) {
+                        x[j] = Character.toString(variabel[j]);
+                        /*if ((Double.compare((A.M[i][j]), 0.0) < 0)) {
+                            tempVar += 
+                        }*/
+                    }
+                }
+            }
+
+        }
+
         return x;
     }
-*/
+
 }

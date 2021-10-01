@@ -50,6 +50,23 @@ public class Operasi {
         return rowZero;
     }
 
+    boolean isColsZero(Matrix m, int j) {
+        boolean colsZero = true;
+        int i=0;
+        while (colsZero && (i < m.rows)) {
+            if (Double.compare(m.M[i][j], 0.0) != 0) {
+                colsZero = false;
+            }
+            i++;
+        }
+        return colsZero;
+    }
+
+    int getIdxRowLeadingNum(Matrix A, int i) {
+        int j=0;
+        while (Double.compare((A.M[i][j]), 0.0) == 0 && (j<A.cols-2))    j++;
+        return j;
+    }
 
     /* mencari determinan dengan reduksi baris */
     float DetGauss(Matrix m){
