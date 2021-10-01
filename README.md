@@ -39,7 +39,8 @@ Requirements: JDK
 ## Usage
 ### Run Manual
 1. Run melalui folder src dengan mengetikkan  `cd src` pada terminal
-2. Compile dengan mengetikkan `javac main.java` pada terminal
+2. Compile dengan mengetikkan `javac -d ../bin main.java` pada terminal
+1. Run melalui folder bin dengan mengetikkan  `cd ../bin` pada terminal
 3. Jalankan main.java dengan mangetikkan `java main` pada terminal
 ### Run Menggunakan Windows Batch File
 1. Clone project ini
@@ -47,6 +48,6 @@ Requirements: JDK
 
 
 ## Contributors
-Muhammad Fajar Ramadhan | 13520026 | K01
-Taufan Fajarama Putrawansyah R | 13520031 | K01
-Addin Nabilal Huda | 13520045 | K01
+- Muhammad Fajar Ramadhan | 13520026 | K01
+- Taufan Fajarama Putrawansyah R | 13520031 | K01
+- Addin Nabilal Huda | 13520045 | K01
