@@ -87,7 +87,7 @@ public class Gauss {
                 countRowZero++;
         }
          
-        if ((m-countRowZero <= n-1) && (Double.compare((A.M[m-1-countRowZero][n-2]), 0.0) != 0)) {
+        if ((m-countRowZero == n-1) && (Double.compare((A.M[m-1-countRowZero][n-2]), 0.0) != 0)) {
             solusi = gaussSPL(A);
             for (i=0; i<solusi.length; i++) {
                 System.out.printf("x[%d] = %f", (i+1), (solusi[i]));
@@ -95,7 +95,10 @@ public class Gauss {
                 A.spl += "x["+(i+1)+"] = "+(solusi[i]+"\n"); // <- Buat output ke file
             }
         }
-        // else parametrik
+        else if (m-countRowZero < n-1) {
+            System.out.println("SPL memiliki banyak solusi.");
+            A.spl += "SPL memiliki banyak solusi.";
+        }
     }
     
     /* mencari solusi pada SPL yang memiliki solusi unik */
