@@ -3,7 +3,6 @@ import java.util.*;
 
 
 public class Operasi {
-    String name;
     
     Scanner input = new Scanner(System.in);
 

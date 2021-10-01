@@ -291,7 +291,12 @@ public class Matrix {
             System.out.printf("y = %f\n",result);
             temp = "y = " + result + "\n";
         }
-        operasi.SaveFile(temp);
+        System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				  int a = input.nextInt();
+				  if(a==1){
+          operasi.SaveFile(temp);
+				}
+        
       }
 
       void interpolasi(Matrix A){
@@ -324,7 +329,11 @@ public class Matrix {
             System.out.printf("p(%f) = %f\n",x,sum);
             temp += "p(" + x+") = " + sum + "\n";
         }
-        operasi.SaveFile(temp);
+        System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				  int a = input.nextInt();
+				  if(a==1){
+          operasi.SaveFile(temp);
+				}
       }
 
       public void display() {
