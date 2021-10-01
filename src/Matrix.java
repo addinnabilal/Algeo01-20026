@@ -54,7 +54,7 @@ public class Matrix {
       this.cols=n;
       }
       else if (a==3) {
-        System.out.println("Masukkan jumlah baris dan kolom");
+        System.out.println("Masukkan jumlah n");
         int n = input.nextInt();
         this.M = new double[n][n+1];
         for (int i=0;i<n;i++){
@@ -289,15 +289,22 @@ public class Matrix {
         }
         else if ((est.M[m-1][n-1] != 0) && (est.M[m-1][n-2] != 0)) {
             solusi = gauss.gaussSPL(est);
-            System.out.printf("y(x) =  %f +", (solusi[0]));
+            System.out.printf("y(x) =  %f", (solusi[0]));
             temp = "y(x) = " + (solusi[0]) + " + ";
-            for (i=1; i<solusi.length-1; i++) {
-                System.out.printf(" %fx^%d +", (solusi[i]),i);
+            for (i=1; i<solusi.length; i++) {
+              if (Double.compare(solusi[i],0)>0){
+                System.out.printf(" + %fx^%d", (solusi[i]),i);
+                temp += " + " + solusi[i] + "x^" + i;
+              }
+              else if (Double.compare(solusi[i],0)<0){
+                System.out.printf(" %fx^%d", (solusi[i]),i);
                 temp = (solusi[i]+"x^" + i + " + \n");
-                System.out.println();
+                temp += " " + solusi[i] + "x^" + i;
+              }
             }
-            System.out.printf(" %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
-            temp = solusi[solusi.length-1]+"x^" + (solusi.length-1) + "\n";
+            System.out.println();
+            temp += "\n";
+
             double result=solusi[0];
             // taksir fungsi pada x
             for (i=1;i<solusi.length;i++){
@@ -331,7 +338,7 @@ public class Matrix {
             temp += "p(x) =" ;
           }
 
-          for (i=1; i<solusi.length-1; i++) {
+          for (i=1; i<solusi.length; i++) {
             if (Double.compare(solusi[i],0)>0){
               System.out.printf("+ %fx^%d ", (solusi[i]),i);
               temp += " + " + solusi[i] + "x^" + i;
@@ -340,15 +347,6 @@ public class Matrix {
               System.out.printf(" %fx^%d ", (solusi[i]),i);
               temp += " " + solusi[i] + "x^" + i;
             }
-          }
-
-          if (Double.compare(solusi[solusi.length-1],0)>0) {
-            System.out.printf("+ %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
-            temp += " + " + solusi[solusi.length-1] + "x^" +(solusi.length-1);
-          }
-          else if(Double.compare(solusi[solusi.length-1],0)<0){
-            System.out.printf("  %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
-            temp += " " + solusi[solusi.length-1] + "x^" +(solusi.length-1);
           }
 
           temp += "\n";
@@ -372,7 +370,6 @@ public class Matrix {
     }
 
     File createFile() throws IOException{
-        Scanner input = new Scanner(System.in);
         String fileName = input.nextLine().trim();
         File file = new File(fileName);
         while (!file.createNewFile()) {
@@ -504,6 +501,7 @@ public class Matrix {
               A=A.toInterpolasi(A);
             }
           }
+          input.close();
         }
 
     }
