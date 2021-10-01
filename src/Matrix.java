@@ -4,7 +4,7 @@ import java.util.*;
 public class Matrix {
     double[][] M;
     int rows=0, cols=0;
-    String spl ="";
+    String spl="";
     Operasi operasi = new Operasi();
     Gauss gauss = new Gauss();
 
@@ -68,6 +68,7 @@ public class Matrix {
       this.cols=n+1;
       }
       else if(a==4){
+        System.out.println("Masukkan nama file ");
         String filename = input.nextLine();
         String text = "";
         try {
@@ -107,19 +108,19 @@ public class Matrix {
       }
       if (B.cols != B.rows){
         System.out.println("Jumlah equation tidak sama dengan jumlah variabel (jumlah baris dan kolom pada matriks koefisien tidak sama). Metode cramer tidak dapat diterapkan pada SPL ini.");
-        A.spl = "Jumlah equation tidak sama dengan jumlah variabel (jumlah baris dan kolom pada matriks koefisien tidak sama). Metode cramer tidak dapat diterapkan pada SPL ini.";
+        A.spl += "Jumlah equation tidak sama dengan jumlah variabel (jumlah baris dan kolom pada matriks koefisien tidak sama). Metode cramer tidak dapat diterapkan pada SPL ini.";
       }
-      else if (Double.compare(B.operasi.DetGauss(B),0)!=0){
-        double det = B.operasi.DetGauss(B);
+      else if ((int)operasi.DetGauss(B)!=0){
+        double det = operasi.DetGauss(B);
         for (int j=0; j<A.cols-1;j++ ){
-          double x = replaceColumn(A, j).operasi.DetGauss(replaceColumn(A, j))/det;
+          double x = operasi.DetGauss(replaceColumn(A, j))/det;
           System.out.printf("x[%d] = %f\n",j+1,x);
-          A.spl = ("x["+(j+1)+"] = "+x+"\n");
+          A.spl += ("x["+(j+1)+"] = "+x+"\n");
         }
       }
       else {
         System.out.println("Determinan matriks koefisien = 0. Metode cramer tidak dapat diterapkan pada SPL ini.");
-        A.spl = "Determinan matriks koefisien = 0. Metode cramer tidak dapat diterapkan pada SPL ini.";
+        A.spl += "Determinan matriks koefisien = 0. Metode cramer tidak dapat diterapkan pada SPL ini.";
       }
     }
 
@@ -166,10 +167,10 @@ public class Matrix {
       }
       if (aug.cols !=aug.rows){
         System.out.println("Jumlah equation tidak sama dengan jumlah variabel (jumlah baris dan kolom pada matriks koefisien tidak sama). Metode matriks balikan tidak dapat diterapkan pada SPL ini.");
-        A.spl = "Jumlah equation tidak sama dengan jumlah variabel (jumlah baris dan kolom pada matriks koefisien tidak sama). Metode matriks balikan tidak dapat diterapkan pada SPL ini.";
+        A.spl += "Jumlah equation tidak sama dengan jumlah variabel (jumlah baris dan kolom pada matriks koefisien tidak sama). Metode matriks balikan tidak dapat diterapkan pada SPL ini.";
 
       }
-      else if (Double.compare(aug.operasi.DetGauss(aug),0)!=0){
+      else if ((int)operasi.DetGauss(aug)!=0){
         for (i=0; i< aug.rows; i++){
           res.M[i][0]= M[i][cols-1];
         }
@@ -180,12 +181,12 @@ public class Matrix {
               sum = sum + aug.M[i][k] * res.M[k][0];
           }
             System.out.printf("x[%d] = %f\n",i+1,sum);
-            A.spl = ("x["+(i+1)+"] = "+sum+"\n");
+            A.spl += ("x["+(i+1)+"] = "+sum+"\n");
         }
       }
       else {
         System.out.println("Determinan matriks koefisien = 0, matriks koefisien tidak memiliki balikan. Metode matriks balikan tidak dapat diterapkan pada SPL ini.");
-        A.spl = "Determinan matriks koefisien = 0, matriks koefisien tidak memiliki balikan. Metode matriks balikan tidak dapat diterapkan pada SPL ini.";
+        A.spl += "Determinan matriks koefisien = 0, matriks koefisien tidak memiliki balikan. Metode matriks balikan tidak dapat diterapkan pada SPL ini.";
       } 
     }
 
@@ -269,27 +270,27 @@ public class Matrix {
         String temp = "";
         if ((est.M[m-1][n-1] != 0) && (est.M[m-1][n-2] == 0)) {
             System.out.println("\nSolusi SPL tidak ada.");
-            temp = "\nSolusi SPL tidak ada.";
+            temp += "\nSolusi SPL tidak ada.";
             
         }
         else if ((est.M[m-1][n-1] != 0) && (est.M[m-1][n-2] != 0)) {
             solusi = gauss.gaussSPL(est);
             System.out.printf("y(x) =  %f +", (solusi[0]));
-            temp = "y(x) = " + (solusi[0]) + " + ";
+            temp += "y(x) = " + (solusi[0]) + " + ";
             for (i=1; i<solusi.length-1; i++) {
                 System.out.printf(" %fx^%d +", (solusi[i]),i);
-                temp = (solusi[i]+"x^" + i + " + \n");
+                temp += (solusi[i]+"x^" + i + " + \n");
                 System.out.println();
             }
             System.out.printf(" %fx^%d\n", (solusi[solusi.length-1]), solusi.length-1);
-            temp = solusi[solusi.length-1]+"x^" + (solusi.length-1) + "\n";
+            temp += solusi[solusi.length-1]+"x^" + (solusi.length-1) + "\n";
             double result=solusi[0];
             // taksir fungsi pada x
             for (i=1;i<solusi.length;i++){
               result += solusi[i]* xk[i-1];
             }
             System.out.printf("y = %f\n",result);
-            temp = "y = " + result + "\n";
+            temp += "y = " + result + "\n";
         }
         System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
 				  int a = input.nextInt();
