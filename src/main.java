@@ -1,10 +1,12 @@
+
+
 import java.io.*;
 import java.util.*;
 public class main {
 
 	  static void printmenu(){
 		System.out.println("MENU");
-		System.out.println("\n1. Sistem persamaan linier\n2. determinan\n3. Matriks balikan\n4. Interpolasi polinom\n5. Regresi Linier berganda\n6. Keluar");
+		System.out.println("\n1. Sistem persamaan linier\n2. Determinan\n3. Matriks balikan\n4. Interpolasi polinom\n5. Regresi Linier berganda\n6. Keluar");
 	  }
 	  static void printmenuspl(){
 		System.out.println("\nPilih Metode\n1. Metode eliminasi Gauss\n2. Metode eliminasi Gauss-Jordan\n3. Metode matriks balikan\n4. Kaidah Cramer");
@@ -103,27 +105,36 @@ public class main {
 				  }
 				  else {
 					A= new Matrix(4);
-				  } 
+				  }
+				if(A.rows==A.cols){
 				System.out.println(operasi.DetGauss(A));
 				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
 				int a = input.nextInt();
 				if(a==1){
 					operasi.SaveFile(operasi.DetGauss(A));
 				}
+				}else{
+					System.out.println("\nMatriks tidak persegi\n");
+				} 
+				
 			  }
 			  else if (userinputspl == 2){
-				if (userinputtipe==1){
+				  if (userinputtipe==1){
 					A = new Matrix(2);
 				  }
 				  else {
 					A= new Matrix(4);
-				  } 
-				  System.out.println(operasi.DetCofactor(A));
-				  System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
-				  int a = input.nextInt();
-				  if(a==1){
+				  }
+				  if(A.rows==A.cols){
+					System.out.println(operasi.DetCofactor(A));
+				  	System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
+				  	int a = input.nextInt();
+				  	if(a==1){
 					operasi.SaveFile(operasi.DetCofactor(A));
-				}
+					}
+					}else{
+						System.out.println("\nMatriks tidak persegi\n");
+					}
 			  }              
 			}
 			else if (userinput == 3) {
@@ -138,15 +149,18 @@ public class main {
 				  else {
 					A= new Matrix(4);
 				  }
-				A = operasi.inverse(A);
-				operasi.DisplayMatrix(A);
+				  if(A.rows==A.cols){
+					A = operasi.inverse(A);
+					operasi.DisplayMatrix(A);
 
-				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
-				int a = input.nextInt();
-				if(a==1){
-					operasi.SaveFile(A);
-				}
-
+					System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
+					int a = input.nextInt();
+					if(a==1){
+						operasi.SaveFile(A);
+						}
+					}else{
+						System.out.println("\nMatriks tidak persegi\n");
+					}
 			  }
 			  else if (userinputspl == 2){
 				if (userinputtipe==1){
@@ -155,13 +169,17 @@ public class main {
 				  else {
 					A= new Matrix(4);
 				  }
+				  if(A.rows==A.cols){
 				  A = operasi.InvAdj(A);
 				  operasi.DisplayMatrix(A);
 				  System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
 				  int a = input.nextInt();
 				  if(a==1){
 					operasi.SaveFile(A);
-				}
+					}
+					}else{
+						System.out.println("\nMatriks tidak persegi\n");
+					}
 
 			  }      
 			}
@@ -173,7 +191,6 @@ public class main {
 				}
 				else {
 				  A= new Matrix(4);
-				  A=A.toInterpolasi(A);
 				}
 				A.interpolasi(A); 
 			  
