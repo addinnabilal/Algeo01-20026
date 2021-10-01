@@ -50,6 +50,7 @@ public class Operasi {
         return rowZero;
     }
 
+
     /* mencari determinan dengan reduksi baris */
     float DetGauss(Matrix m){
         Matrix mtemp = new Matrix(m.M);
@@ -224,7 +225,7 @@ public class Operasi {
         }
         
         try {
-            FileWriter writer = new FileWriter(fileName);
+            FileWriter writer = new FileWriter(fileName+".txt");
             writer.write(temp);
             writer.close();
         } catch (IOException e) {
@@ -242,7 +243,7 @@ public class Operasi {
         temp += (M);
         
         try {
-            FileWriter writer = new FileWriter(fileName);
+            FileWriter writer = new FileWriter(fileName+".txt");
             writer.write(temp);
             writer.close();
         } catch (IOException e) {
@@ -256,11 +257,11 @@ public class Operasi {
     void SaveFile(String name){
         System.out.println("Masukkan nama file untuk di save");
         String fileName = input.nextLine();
-        String temp = "";
-        temp += name;
+        String temp;
+        temp = name;
         
         try {
-            FileWriter writer = new FileWriter(fileName);
+            FileWriter writer = new FileWriter(fileName+".txt");
             writer.write(temp);
             writer.close();
         } catch (IOException e) {

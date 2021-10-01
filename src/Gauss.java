@@ -1,3 +1,4 @@
+
 public class Gauss {
     Operasi operasi = new Operasi();
 

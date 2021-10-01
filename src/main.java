@@ -7,15 +7,15 @@ public class main {
 		System.out.println("\n1. Sistem persamaan linier\n2. determinan\n3. Matriks balikan\n4. Interpolasi polinom\n5. Regresi Linier berganda\n6. Keluar");
 	  }
 	  static void printmenuspl(){
-		System.out.println("\n1. Metode eliminasi Gauss\n2. Metode eliminasi Gauss-Jordan\n3. Metode matriks balikan\n4. Kaidah Cramer");
+		System.out.println("\nPilih Metode\n1. Metode eliminasi Gauss\n2. Metode eliminasi Gauss-Jordan\n3. Metode matriks balikan\n4. Kaidah Cramer");
 	  }
   
 	  static void printmenudet(){
-		System.out.println("\n1. Metode eliminasi Gauss\n2. Metode kofaktor");
+		System.out.println("\nPilih Metode\n1. Metode eliminasi Gauss\n2. Metode kofaktor");
 	  }
   
 	  static void printmenuinverse(){
-		System.out.println("\n1. Metode eliminasi Gauss\n2. Metode adjoin");
+		System.out.println("\nPilih Metode\n1. Metode eliminasi Gauss\n2. Metode adjoin");
 	  }
   
 	  public static void main(String[] args) throws IOException {
@@ -40,7 +40,7 @@ public class main {
 				  }
 				A = gauss.eselonBaris(A);
 				gauss.printSPL(A);
-				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
 				int a = input.nextInt();
 				if(a==1){
 					operasi.SaveFile(A.spl);
@@ -55,7 +55,7 @@ public class main {
 				  }
 				A = gauss.eselonBarisRed(A);
 				gauss.printSPL(A);
-				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
 				int a = input.nextInt();
 				if(a==1){
 					operasi.SaveFile(A.spl);
@@ -70,7 +70,7 @@ public class main {
 				  }
 
 				A.splBalikan(A);
-				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
 				int a = input.nextInt();
 				if(a==1){
 					operasi.SaveFile(A.spl);
@@ -84,7 +84,7 @@ public class main {
 					A = new Matrix(4);
 				  }
 				A.cramer(A);
-				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
 				int a = input.nextInt();
 				if(a==1){
 					operasi.SaveFile(A.spl);
@@ -105,7 +105,7 @@ public class main {
 					A= new Matrix(4);
 				  } 
 				System.out.println(operasi.DetGauss(A));
-				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
 				int a = input.nextInt();
 				if(a==1){
 					operasi.SaveFile(operasi.DetGauss(A));
@@ -119,7 +119,7 @@ public class main {
 					A= new Matrix(4);
 				  } 
 				  System.out.println(operasi.DetCofactor(A));
-				  System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				  System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
 				  int a = input.nextInt();
 				  if(a==1){
 					operasi.SaveFile(operasi.DetCofactor(A));
@@ -141,7 +141,7 @@ public class main {
 				A = operasi.inverse(A);
 				operasi.DisplayMatrix(A);
 
-				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
 				int a = input.nextInt();
 				if(a==1){
 					operasi.SaveFile(A);
@@ -157,7 +157,7 @@ public class main {
 				  }
 				  A = operasi.InvAdj(A);
 				  operasi.DisplayMatrix(A);
-				  System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2.Tidak");
+				  System.out.println("\nSimpan hasil ke file baru ?\n1. Ya\n2. Tidak");
 				  int a = input.nextInt();
 				  if(a==1){
 					operasi.SaveFile(A);
