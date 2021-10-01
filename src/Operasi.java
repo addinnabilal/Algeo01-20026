@@ -38,6 +38,18 @@ public class Operasi {
         }
     }
 
+    boolean isSPLRowZero(Matrix m, int i) {
+        boolean rowZero = true;
+        int j=0;
+        while (rowZero && (j < m.cols-1)) {
+            if (Double.compare(m.M[i][j], 0.0) != 0) {
+                rowZero = false;
+            }
+            j++;
+        }
+        return rowZero;
+    }
+
     /* mencari determinan dengan reduksi baris */
     float DetGauss(Matrix m){
         Matrix mtemp = new Matrix(m.M);

@@ -74,12 +74,23 @@ public class Gauss {
 
     /* print solusi SPL */
     void printSPL(Matrix A){
+<<<<<<< HEAD
         int i, m = A.rows, n = A.cols;
+=======
+        int i, m = A.rows, n = A.cols, countRowZero=0;
+        A.display();
+>>>>>>> e557cb6c69376432460023c99d122f7d5015ea8a
         double[] solusi;
-        if ((Double.compare((A.M[m-1][n-1]), 0.0) != 0) && (Double.compare((A.M[m-1][n-2]), 0.0) == 0)) {
-            System.out.println("\nSolusi SPL tidak ada.");
+        for (i=A.rows-1; i>=0; i--) {
+            if ((Double.compare((A.M[i][n-1]), 0.0) != 0) && (operasi.isSPLRowZero(A, i))) {
+                System.out.println("\nSolusi SPL tidak ada.");
+                return;
+            }
+            if ((Double.compare((A.M[i][n-1]), 0.0) == 0) && (operasi.isSPLRowZero(A, i)))
+                countRowZero++;
         }
-        else if (Double.compare((A.M[m-1][n-2]), 0.0) != 0) {
+         
+        if ((m-countRowZero <= n-1) && (Double.compare((A.M[m-1-countRowZero][n-2]), 0.0) != 0)) {
             solusi = gaussSPL(A);
             for (i=0; i<solusi.length; i++) {
                 System.out.printf("x[%d] = %f", (i+1), (solusi[i]));
@@ -87,19 +98,43 @@ public class Gauss {
                 A.spl += "x["+(i+1)+"] = "+(solusi[i]+"\n"); // <- Buat output ke file
             }
         }
+        // else parametrik
     }
     
     /* mencari solusi pada SPL yang memiliki solusi unik */
     double[] gaussSPL(Matrix A) {
-        int i, j, m = A.rows, n = A.cols;
-        double[] x = new double[m];     // solusi SPL
+        int i, j, m = A.rows, n = A.cols, countRowZero=0;
+        double[] x = new double[n-1];     // solusi SPL
         for (i=m-1; i>=0; i--) {
+            if ((Double.compare((A.M[i][n-1]), 0.0) == 0) && (operasi.isSPLRowZero(A, i)))
+                countRowZero++;
+        }
+        for (i=m-1-countRowZero; i>=0; i--) {
             double temp = 0.0;
-            for (j=i+1; j<m; j++) {
+            for (j=i+1; j<n-1; j++) {
                 temp += (A.M[i][j] * x[j]);
             }
             x[i] = ((A.M[i][n-1])-temp)/(A.M[i][i]);
         }
         return x;
     }
+/*
+    String[] gaussSPLParametrik(Matrix A) {
+        int i, j, m = A.rows, n = A.cols;
+        String variabel = "abcdefghijklmnopqrstuvwxyz";
+        String[] x = new String[n-1];     // solusi SPL
+        double[] tempX = new double[n-1];
+        for (i=m-1; i>=0; i--) {
+            double temp = 0.0;
+            for (j=i+1; j<m; j++) {
+                temp += (A.M[i][j] * x[j]);
+            }
+            if ((Double.compare((A.M[i][n-1]), 0.0) == 0) && (operasi.isSPLRowZero(A, i))) { 
+                x[i] = Character.toString(variabel.charAt(i));
+            }
+            x[i] = ((A.M[i][n-1])-temp)/(A.M[i][i]);
+        }
+        return x;
+    }
+*/
 }
